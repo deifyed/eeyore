@@ -8,7 +8,7 @@ import (
 // singleCmd represents the ask command
 var singleCmd = &cobra.Command{
 	Use:   "single",
-	Args:  cobra.ExactArgs(1),
+	Args:  cobra.MaximumNArgs(1),
 	Short: "Ask a single question to OpenAI",
 	RunE:  single.RunE(),
 }

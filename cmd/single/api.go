@@ -2,6 +2,7 @@ package single
 
 import (
 	"fmt"
+	"io"
 
 	"github.com/deifyed/eeyore/pkg/openai"
 	"github.com/spf13/cobra"
@@ -11,7 +12,18 @@ import (
 func RunE() func(cmd *cobra.Command, args []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		token := viper.GetString("token")
-		question := args[0]
+		var question string
+
+		if len(args) == 0 {
+			rawQuestion, err := io.ReadAll(cmd.InOrStdin())
+			if err != nil {
+				return fmt.Errorf("reading stdin: %w", err)
+			}
+
+			question = string(rawQuestion)
+		} else {
+			question = args[0]
+		}
 
 		response, err := openai.Query(cmd.Context(), openai.QueryOptions{
 			Token:     token,
