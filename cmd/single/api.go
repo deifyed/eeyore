@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/deifyed/eeyore/pkg/config"
 	"github.com/deifyed/eeyore/pkg/openai"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -11,7 +12,7 @@ import (
 
 func RunE() func(cmd *cobra.Command, args []string) error {
 	return func(cmd *cobra.Command, args []string) error {
-		token := viper.GetString("token")
+		token := viper.GetString(config.OpenAIToken)
 		var question string
 
 		if len(args) == 0 {

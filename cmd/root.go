@@ -3,7 +3,9 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 
+	"github.com/deifyed/eeyore/pkg/config"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -26,8 +28,9 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.eeyore.yaml)")
 
-	rootCmd.PersistentFlags().StringP("token", "t", "", "API token to use")
-	viper.BindPFlag("token", rootCmd.PersistentFlags().Lookup("token"))
+	rootCmd.PersistentFlags().StringP(config.OpenAIToken, "t", "", "API token to use")
+	viper.BindPFlag(config.OpenAIToken, rootCmd.PersistentFlags().Lookup(config.OpenAIToken))
+	viper.BindEnv(config.OpenAIToken, "EEYORE_OPENAI_TOKEN")
 }
 
 func initConfig() {
@@ -42,7 +45,8 @@ func initConfig() {
 		viper.SetConfigName(".eeyore")
 	}
 
-	viper.SetEnvPrefix("EEYORE")
+	viper.SetEnvPrefix("eeyore")
+	viper.EnvKeyReplacer(strings.NewReplacer("-", "_"))
 	viper.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.

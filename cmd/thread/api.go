@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 
+	"github.com/deifyed/eeyore/pkg/config"
 	gogpt "github.com/sashabaranov/go-gpt3"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -11,7 +12,7 @@ import (
 
 func RunE() func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
-		client := gogpt.NewClient(viper.GetString("token"))
+		client := gogpt.NewClient(viper.GetString(config.OpenAIToken))
 
 		inputBuffer := bufio.NewScanner(cmd.InOrStdin())
 
