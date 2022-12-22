@@ -25,6 +25,9 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.eeyore.yaml)")
+
+	rootCmd.PersistentFlags().StringP("token", "t", "", "API token to use")
+	viper.BindPFlag("token", rootCmd.PersistentFlags().Lookup("token"))
 }
 
 func initConfig() {
@@ -39,6 +42,7 @@ func initConfig() {
 		viper.SetConfigName(".eeyore")
 	}
 
+	viper.SetEnvPrefix("EEYORE")
 	viper.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.
