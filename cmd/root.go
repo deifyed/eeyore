@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"path"
 	"strings"
 
 	"github.com/deifyed/eeyore/pkg/config"
@@ -40,9 +41,11 @@ func initConfig() {
 		home, err := os.UserHomeDir()
 		cobra.CheckErr(err)
 
-		viper.AddConfigPath(home)
+		configPath := path.Join(home, ".config", "eeyore")
+
+		viper.AddConfigPath(configPath)
 		viper.SetConfigType("yaml")
-		viper.SetConfigName(".eeyore")
+		viper.SetConfigName("config")
 	}
 
 	viper.SetEnvPrefix("eeyore")
