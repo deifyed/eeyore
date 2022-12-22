@@ -55,3 +55,7 @@ Or using a configuration file located at `~/.config/eeyore/config.yaml`:
 ```yaml
 openai-token: "YOUR_TOKEN"
 ```
+
+## FAQ
+
+- How do I acquire an API token? Log into [OpenAI](https://openai.com/api/login), click "Personal" up in the upper right corner and then "View API keys"
