@@ -7,9 +7,10 @@ import (
 
 // singleCmd represents the ask command
 var singleCmd = &cobra.Command{
-	Use:  "single",
-	Args: cobra.ExactArgs(1),
-	RunE: single.RunE(),
+	Use:   "single",
+	Args:  cobra.ExactArgs(1),
+	Short: "Ask a single question to OpenAI",
+	RunE:  single.RunE(),
 }
 
 func init() {
