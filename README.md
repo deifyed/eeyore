@@ -9,6 +9,7 @@ I wanted to access ChatGPT through my terminal
 ```shell
 # Ask a single question
 echo "What is the meaning of life?" | eeyore single
+eeyore single "What is the meaning of life?"
 
 # Start a conversation
 eeyore thread
