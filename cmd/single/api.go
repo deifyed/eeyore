@@ -5,7 +5,7 @@ import (
 	"io"
 
 	"github.com/deifyed/eeyore/pkg/config"
-	"github.com/deifyed/eeyore/pkg/openai"
+	gogpt "github.com/sashabaranov/go-gpt3"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -13,6 +13,8 @@ import (
 func RunE() func(cmd *cobra.Command, args []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		token := viper.GetString(config.OpenAIToken)
+		var maxTokens = viper.GetInt(config.MaxTokens)
+		var temperature = float32(viper.GetFloat64(config.Temperature))
 		var question string
 
 		if len(args) == 0 {
@@ -26,16 +28,21 @@ func RunE() func(cmd *cobra.Command, args []string) error {
 			question = args[0]
 		}
 
-		response, err := openai.Query(cmd.Context(), openai.QueryOptions{
-			Token:     token,
-			MaxTokens: 1024,
-			Message:   question,
-		})
-		if err != nil {
-			return fmt.Errorf("asking question: %w", err)
+		client := gogpt.NewClient(token)
+
+		request := gogpt.CompletionRequest{
+			Model:       "text-davinci-003",
+			MaxTokens:   maxTokens,
+			Temperature: temperature,
+			Prompt:      question,
 		}
 
-		fmt.Println(response)
+		response, err := client.CreateCompletion(cmd.Context(), request)
+		if err != nil {
+			return fmt.Errorf("creating completion: %w", err)
+		}
+
+		fmt.Println(response.Choices[0].Text)
 
 		return nil
 	}

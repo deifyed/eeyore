@@ -14,8 +14,10 @@ import (
 func RunE() func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		client := gogpt.NewClient(viper.GetString(config.OpenAIToken))
-
 		inputBuffer := bufio.NewScanner(cmd.InOrStdin())
+
+		var maxTokens = viper.GetInt(config.MaxTokens)
+		var temperature = float32(viper.GetFloat64(config.Temperature))
 
 		for {
 			fmt.Printf("> ")
@@ -27,8 +29,8 @@ func RunE() func(*cobra.Command, []string) error {
 
 			request := gogpt.CompletionRequest{
 				Model:       "text-davinci-003",
-				MaxTokens:   1024,
-				Temperature: 0.5,
+				MaxTokens:   maxTokens,
+				Temperature: temperature,
 				Prompt:      inputBuffer.Text(),
 			}
 

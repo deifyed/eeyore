@@ -34,6 +34,18 @@ func init() {
 	cobra.CheckErr(err)
 	err = viper.BindEnv(config.OpenAIToken, "EEYORE_OPENAI_TOKEN")
 	cobra.CheckErr(err)
+
+	rootCmd.PersistentFlags().IntP(config.MaxTokens, "m", 1024, "Maximum number of tokens to generate")
+	err = viper.BindPFlag(config.MaxTokens, rootCmd.PersistentFlags().Lookup(config.MaxTokens))
+	cobra.CheckErr(err)
+	err = viper.BindEnv(config.MaxTokens, "EEYORE_MAX_TOKENS")
+	cobra.CheckErr(err)
+
+	rootCmd.PersistentFlags().Float32P(config.Temperature, "T", 0.5, "Temperature to use")
+	err = viper.BindPFlag(config.Temperature, rootCmd.PersistentFlags().Lookup(config.Temperature))
+	cobra.CheckErr(err)
+	err = viper.BindEnv(config.Temperature, "EEYORE_TEMPERATURE")
+	cobra.CheckErr(err)
 }
 
 func initConfig() {
