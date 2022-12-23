@@ -30,8 +30,10 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.eeyore.yaml)")
 
 	rootCmd.PersistentFlags().StringP(config.OpenAIToken, "t", "", "API token to use")
-	viper.BindPFlag(config.OpenAIToken, rootCmd.PersistentFlags().Lookup(config.OpenAIToken))
-	viper.BindEnv(config.OpenAIToken, "EEYORE_OPENAI_TOKEN")
+	err := viper.BindPFlag(config.OpenAIToken, rootCmd.PersistentFlags().Lookup(config.OpenAIToken))
+	cobra.CheckErr(err)
+	err = viper.BindEnv(config.OpenAIToken, "EEYORE_OPENAI_TOKEN")
+	cobra.CheckErr(err)
 }
 
 func initConfig() {
