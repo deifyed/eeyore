@@ -6,10 +6,11 @@ import (
 )
 
 var threadCmd = &cobra.Command{
-	Use:   "thread",
-	Args:  cobra.NoArgs,
-	Short: "Start a conversation with OpenAI",
-	RunE:  thread.RunE(),
+	Use:     "thread",
+	Aliases: []string{"t", "th"},
+	Args:    cobra.NoArgs,
+	Short:   "Start a conversation with OpenAI",
+	RunE:    thread.RunE(),
 }
 
 func init() {
