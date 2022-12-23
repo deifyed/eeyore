@@ -16,8 +16,8 @@ func RunE() func(*cobra.Command, []string) error {
 		client := gogpt.NewClient(viper.GetString(config.OpenAIToken))
 		inputBuffer := bufio.NewScanner(cmd.InOrStdin())
 
-		var maxTokens = viper.GetInt(config.MaxTokens)
-		var temperature = float32(viper.GetFloat64(config.Temperature))
+		maxTokens := viper.GetInt(config.MaxTokens)
+		temperature := float32(viper.GetFloat64(config.Temperature))
 
 		for {
 			fmt.Printf("> ")

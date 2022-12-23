@@ -13,8 +13,8 @@ import (
 func RunE() func(cmd *cobra.Command, args []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		token := viper.GetString(config.OpenAIToken)
-		var maxTokens = viper.GetInt(config.MaxTokens)
-		var temperature = float32(viper.GetFloat64(config.Temperature))
+		maxTokens := viper.GetInt(config.MaxTokens)
+		temperature := float32(viper.GetFloat64(config.Temperature))
 		var question string
 
 		if len(args) == 0 {
