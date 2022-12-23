@@ -18,6 +18,7 @@ func RunE() func(*cobra.Command, []string) error {
 
 		maxTokens := viper.GetInt(config.MaxTokens)
 		temperature := float32(viper.GetFloat64(config.Temperature))
+		model := viper.GetString(config.Model)
 
 		conversation := strings.Builder{}
 
@@ -36,7 +37,7 @@ func RunE() func(*cobra.Command, []string) error {
 			conversation.WriteString(inputBuffer.Text())
 
 			request := gogpt.CompletionRequest{
-				Model:       "text-davinci-003",
+				Model:       model,
 				MaxTokens:   maxTokens,
 				Temperature: temperature,
 				Prompt:      conversation.String(),

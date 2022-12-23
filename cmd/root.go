@@ -46,6 +46,12 @@ func init() {
 	cobra.CheckErr(err)
 	err = viper.BindEnv(config.Temperature, "EEYORE_TEMPERATURE")
 	cobra.CheckErr(err)
+
+	rootCmd.PersistentFlags().StringP(config.Model, "M", "text-davinci-003", "Model to use")
+	err = viper.BindPFlag(config.Model, rootCmd.PersistentFlags().Lookup(config.Model))
+	cobra.CheckErr(err)
+	err = viper.BindEnv(config.Model, "EEYORE_MODEL")
+	cobra.CheckErr(err)
 }
 
 func initConfig() {
