@@ -19,6 +19,8 @@ func RunE() func(*cobra.Command, []string) error {
 		maxTokens := viper.GetInt(config.MaxTokens)
 		temperature := float32(viper.GetFloat64(config.Temperature))
 
+		conversation := strings.Builder{}
+
 		for {
 			fmt.Printf("> ")
 			inputBuffer.Scan()
@@ -27,11 +29,17 @@ func RunE() func(*cobra.Command, []string) error {
 				break
 			}
 
+			if len(inputBuffer.Text()) < 5 {
+				continue
+			}
+
+			conversation.WriteString(inputBuffer.Text())
+
 			request := gogpt.CompletionRequest{
 				Model:       "text-davinci-003",
 				MaxTokens:   maxTokens,
 				Temperature: temperature,
-				Prompt:      inputBuffer.Text(),
+				Prompt:      conversation.String(),
 			}
 
 			response, err := client.CreateCompletion(cmd.Context(), request)
@@ -41,6 +49,7 @@ func RunE() func(*cobra.Command, []string) error {
 
 			output := fmt.Sprintf("\n%s", wordWrap(response.Choices[0].Text, 120))
 
+			conversation.WriteString(output)
 			fmt.Fprintln(cmd.OutOrStdout(), output)
 		}
 
